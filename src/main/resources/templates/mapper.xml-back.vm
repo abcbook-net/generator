@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="${package.Mapper}.${table.mapperName}">
+#if(${enableCache})
+
+    <!-- 开启二级缓存 -->
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+#end
+
+#if(${baseColumnList})
+    <!-- 通用查询结果列备用 -->
+    <sql id="Base_Column_List">
+        a.id,
+##生成普通字段
+        #foreach($field in ${table.fields})#if(${field.name} == ${field.propertyName})a.$!{field.name}#else a.$!{field.name} AS $!{field.propertyName}#end, #end
+
+##生成公共字段
+        #foreach($field in ${table.commonFields})#if(${field.name} != "id")#if(${field.name} == ${field.propertyName})a.$!{field.name}#if($!{velocityCount} != ${table.commonFields.size()}),#end#else a.$!{field.name} AS $!{field.propertyName}#if($!{velocityCount} != ${table.commonFields.size()}),#end#end#end#end
+
+    </sql>
+#end
+
+#if(${baseResultMap})
+    <!-- 映射的数据模型备用 -->
+    <resultMap id="BaseResultMap" type="${package.Entity}.${entity}">
+###foreach($field in ${table.fields})
+###if(${field.keyFlag})##生成主键排在第一位
+##        <id column="${field.name}" property="${field.propertyName}" />
+###end
+###end
+        <id column="id" property="id" />
+
+#foreach($field in ${table.fields})
+##生成普通字段
+#if(!${field.keyFlag})
+        <result column="${field.name}" property="${field.propertyName}" />
+#end
+#end
+
+##生成公共字段
+#foreach($field in ${table.commonFields})
+#if(${field.name} != "id")
+        <result column="$!{field.name}" property="$!{field.propertyName}" />
+#end
+#end
+    </resultMap>
+#end
+</mapper>

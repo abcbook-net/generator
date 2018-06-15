@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="${package.Mapper}.${table.mapperName}">
+#if(${enableCache})
+
+    <!-- 开启二级缓存 -->
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+#end
+
+#if(${baseResultMap})
+    <!-- 映射的数据模型 -->
+    <resultMap id="BaseResultMap" type="${package.Entity}.${entity}">
+###foreach($field in ${table.fields})
+###if(${field.keyFlag})##生成主键排在第一位
+##        <id column="${field.name}" property="${field.propertyName}" />
+###end
+###end
+        <id column="id" property="id" />
+
+#foreach($field in ${table.fields})
+##生成普通字段
+#if(!${field.keyFlag})
+        <result column="${field.name}" property="${field.propertyName}" />
+#end
+#end
+
+##生成公共字段
+#foreach($field in ${table.commonFields})
+#if(${field.name} != "id")
+        <result column="$!{field.name}" property="$!{field.propertyName}" />
+#end
+#end
+    </resultMap>
+#end
+
+#if(${baseColumnList})
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+##生成普通字段
+        #foreach($field in ${table.fields})#if(${field.name} == ${field.propertyName})$!{field.name}#else$!{field.name} AS $!{field.propertyName}#end, #end
+
+##生成公共字段
+        #foreach($field in ${table.commonFields})#if(${field.name} != "id")#if(${field.name} == ${field.propertyName})$!{field.name}#if($!{velocityCount} != ${table.commonFields.size()}),#end#else$!{field.name} AS $!{field.propertyName}#if($!{velocityCount} != ${table.commonFields.size()}),#end#end#end#end
+
+    </sql>
+#end
+
+##    <!-- 普通添加-开始 -->
+##    <insert id="insert" parameterType="${package.Entity}.${entity}">
+##        INSERT INTO $!{table.name}(
+##          id,
+##
+####生成普通字段
+###foreach($field in ${table.fields})
+##          $!{field.name},
+###end
+##
+####生成公共字段
+##          is_deleted
+##        ) VALUES (
+##          #{id},
+##
+###foreach($field in ${table.fields})
+##          #{${field.propertyName}},
+###end
+##
+##          false
+##        )
+##    </insert>
+##    <!-- 普通添加-结束 -->
+
+    <!-- 选择性添加-开始 -->
+    <insert id="insert" parameterType="${package.Entity}.${entity}">
+        INSERT INTO $!{table.name}
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+## 定义 id
+            <if test="true">
+                id,
+            </if>
+
+##生成普通字段
+#foreach($field in ${table.fields})
+            <if test="$!{field.propertyName} != null">
+                $!{field.name},
+            </if>
+#end
+
+##定义伪删除标记字段
+            <if test="true">
+                is_deleted,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+## 设置主键的值
+            <if test="true">
+                #{id},
+            </if>
+
+##生成普通字段
+#foreach($field in ${table.fields})
+            <if test="$!{field.propertyName} != null">
+                #{$!{field.propertyName}},
+            </if>
+#end
+
+##设置伪删除标记值
+           <if test="true">
+                false,
+            </if>
+        </trim>
+    </insert>
+    <!-- 选择性添加-结束 -->
+
+    <!-- 逻辑删除(根据 id)-开始 -->
+    <update id="delete" parameterType="java.lang.Long">
+        UPDATE $!{table.name} SET
+          is_deleted = true
+        WHERE id = #{id}
+    </update>
+    <!-- 逻辑删除(根据 id)-结束 -->
+
+    <!-- 逻辑删除(根据实体数据)-开始 -->
+    <update id="deleteSelective" parameterType="${package.Entity}.${entity}">
+        UPDATE $!{table.name} SET
+          is_deleted = true
+        WHERE
+        <trim prefix="" suffix="" prefixOverrides="AND">
+##生成普通字段
+#foreach($field in ${table.fields})
+            <if test="$!{field.propertyName} != null">
+                AND $!{field.name} = #{$!{field.propertyName}}
+            </if>
+#end
+        </trim>
+    </update>
+    <!-- 逻辑删除(根据实体数据)-结束 -->
+
+    <!-- 普通更新-开始 -->
+    <update id="update" parameterType="${package.Entity}.${entity}">
+        UPDATE $!{table.name} SET
+##生成普通字段
+#foreach($field in ${table.fields})
+            $!{field.name} = #{$!{field.propertyName}}#if($!{velocityCount} != ${table.fields.size()}),#end
+
+#end
+        WHERE id = #{id}
+          AND is_deleted = false
+    </update>
+    <!-- 普通更新-结束 -->
+
+    <!-- 选择性更新-开始 -->
+    <update id="updateSelective" parameterType="${package.Entity}.${entity}">
+        UPDATE $!{table.name}
+        <set>
+##生成普通字段
+#foreach($field in ${table.fields})
+            <if test="$!{field.propertyName} != null">
+                $!{field.name} = #{$!{field.propertyName}},
+            </if>
+#end
+        </set>
+        WHERE id = #{id}
+          AND is_deleted = false
+    </update>
+    <!-- 选择性更新-结束 -->
+
+    <!-- 根据ID查询-开始 -->
+    <select id="get" resultType="${package.Entity}.${entity}" parameterType="java.lang.Long">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM $!{table.name}
+        WHERE id = #{id}
+          AND is_deleted = false
+    </select>
+    <!-- 根据ID查询-开始 -->
+
+    <!-- 根据传入的查询条件,查询单个用户-开始 -->
+    <select id="getByParameters" resultType="${package.Entity}.${entity}" parameterType="${package.Entity}.${entity}">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM $!{table.name}
+        WHERE
+        <trim prefix="" suffix="" prefixOverrides="AND">
+##生成普通字段
+#foreach($field in ${table.fields})
+            <if test="$!{field.propertyName} != null">
+                AND $!{field.name} = #{$!{field.propertyName}}
+            </if>
+#end
+        </trim>
+          AND is_deleted = false
+    </select>
+    <!-- 根据传入的查询条件,查询单个用户-结束 -->
+
+    <!-- 根据传入的查询条件,查询用户集合-开始 -->
+    <select id="list" resultType="${package.Entity}.${entity}" parameterType="${package.Entity}.${entity}">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM $!{table.name}
+        WHERE
+        <trim prefix="" suffix="" prefixOverrides="AND">
+##生成普通字段
+#foreach($field in ${table.fields})
+            <if test="$!{field.propertyName} != null">
+                AND $!{field.name} = #{$!{field.propertyName}}
+            </if>
+#end
+        </trim>
+          AND is_deleted = false
+    </select>
+    <!-- 根据传入的查询条件,查询用户集合-结束 -->
+##
+##
+##    <!-- 逻辑删除(根据 传入的条件) -->
+##    <update id="delete" parameterType="${package.Entity}.${entity}">
+##        UPDATE $!{table.name} SET
+##        is_deleted = true
+##        WHERE id = #{id}
+##    </update>
+</mapper>

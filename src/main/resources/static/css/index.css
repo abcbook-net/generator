@@ -1,0 +1,139 @@
+body {
+    color: #333;
+}
+
+input::-webkit-input-placeholder {
+    /*WebKit browsers*/
+    color: #aaa!important;
+}
+
+input::-moz-input-placeholder {
+    /*Mozilla Firefox*/
+    color: #aaa!important;
+}
+
+input::-ms-input-placeholder {
+    /*Internet Explorer*/
+    color: #aaa!important;
+}
+
+small.text-muted {
+    color: #ccc!important;
+}
+
+
+/*
+.card-columns {
+    @include media-breakpoint-only(lg) {
+        column-count: 4;
+    }
+    @include media-breakpoint-only(xl) {
+        column-count: 5;
+    }
+    @include media-breakpoint-only(md) {
+        column-count: 2;
+    }
+}*/
+
+.banner-container {
+    max-height: 400px;
+    /*    height: 400px;*/
+    overflow: hidden;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.banner-image {
+    /*    height: 400px;*/
+}
+
+.banner-title {
+    width: 280px;
+    font-size: 64px;
+    color: #efefef;
+    text-align: center;
+    position: absolute;
+    top: 100px;
+    left: 50%;
+    margin-left: -140px;
+}
+
+.banner-subhead {
+    width: 580px;
+    font-size: 34px;
+    color: #efefef;
+    text-align: center;
+    position: absolute;
+    top: 215px;
+    left: 50%;
+    margin-left: -290px;
+}
+
+.logo {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    margin-top: -50px;
+    left: 50%;
+    margin-left: -50px;
+    background-color: #fff;
+    border: solid #ddd 1px;
+    border-radius: 50px;
+    overflow: hidden;
+}
+
+.body-container {
+    margin-top: 70px;
+    margin-bottom: 120px;
+}
+
+.form-item {
+    border: solid #ddd 1px;
+    padding: 0;
+    color: #666;
+    margin-top: 25px;
+    margin-right: 1%;
+    margin-left: 1%;
+    box-shadow: 0px 4px 6px 0px #dedede;
+}
+
+.form-item:hover {
+    box-shadow: 0px 10px 15px 5px #dddddd;
+}
+
+.form-item {
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+.item-title {
+    height: 60px;
+    line-height: 60px;
+    border-bottom: solid #ddd 1px;
+    padding-left: 15px;
+    color: #999;
+    font-size: 16px;
+}
+
+.item-container {
+    min-height: 210px;
+    padding: 15px 30px;
+}
+
+
+.bottom-container{
+    margin-top: 80px;
+}
+
+.tablePrefixModalBody{
+    margin-left: 35px;
+}
+.tablePrefixModalBody .form-check {
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
+.tableModalBody .content {
+    margin-bottom: 15px;
+}

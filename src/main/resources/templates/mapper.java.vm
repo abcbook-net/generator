@@ -1,0 +1,85 @@
+package ${package.Mapper};
+
+import ${package.Entity}.${entity};
+import ${superMapperClassPackage};
+##import org.apache.ibatis.annotations.Insert;
+##import org.apache.ibatis.annotations.Update;
+##import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Component;
+
+/**
+ * @author ${author}
+ * @date ${date}
+ * @description $!{table.comment} Mapper 接口
+ */
+#if(${kotlin})
+interface ${table.mapperName} : ${superMapperClass}<${entity}>
+#else
+@Mapper
+@Component
+public interface ${table.mapperName} extends ${superMapperClass}<${entity}> {
+
+##
+##    /**
+##     * 插入数据
+##     * @param ${entity.toLowerCase()} 插入的数据对象
+##     * @return Integer 影响的数据条数
+##     */
+##    @Override
+##    @Insert("INSERT INTO $!{table.name}(id, #foreach($field in ${table.fields})$!{field.name}, #end is_deleted) VALUES (#{id}, #foreach($field in ${table.fields})#{${field.propertyName}}, #end false)")
+##    Integer insert(${entity} ${entity.toLowerCase()});
+##
+##    /**
+##     * 根据 id 删除数据 (此处的删除为伪删除,只是修改 id_deleted 为 true(1))
+##     * @param id 需要删除的数据的 id
+##     * @return Integer 影响的数据条数
+##     */
+##    @Override
+##    @Update("UPDATE $!{table.name} SET is_deleted=true WHERE id=#{id}")
+##    Integer delete(Long id);
+##
+##
+##        /**
+##        * 根据传入的对象的条件删除数据
+##        * (此处的删除为伪删除,只是修改 id_deleted 为 true(1))
+##        * @param entity 需要删除的数据条件
+##        * @return Integer 影响的数据条数
+##        */
+##        Integer delete(T entity);
+##
+##    /**
+##     * 根据传入的对象, 更新对应的数据
+##     * @param ${entity.toLowerCase()} 修改的数据对象
+##     * @return Integer 影响的数据条数
+##     */
+##    @Override
+##    @Update("UPDATE $!{table.name} SET #foreach($field in ${table.fields})$!{field.name}=#{${field.propertyName}}#if($!{velocityCount} != ${table.fields.size()}),#end #end WHERE id=#{id}")
+##    Integer update(${entity} ${entity.toLowerCase()});
+##
+##    /**
+##     * 根据 id 获取数据对象
+##     * @param id 想要查询的数据的 id
+##     * @return 符合条件的对象
+##     */
+##    @Override
+##    @Select("SELECT id, #foreach($field in ${table.fields})$!{field.name}#if($!{velocityCount} != ${table.fields.size()}),#end #end #foreach($field in ${table.commonFields})#if(${field.name}!="id"&&${field.name}!="is_deleted"), $!{field.name}#end #end FROM $!{table.name} WHERE id=#{id}")
+##    ${entity} get(Long id);
+##
+##
+##        /**
+##        * 根据传入的对象, 查询符合条件的数据的集合
+##        * @param entity 用于封装查询条件的实体类
+##        * @return 符合条件的数据集合
+##        */
+##<T extends BaseEntity> List<T> list(T entity);
+##
+##    /**
+##    * 根据传入的对象, 查询符合条件的数据
+##    * @param entity 用于封装查询条件的实体类
+##    * @return 符合条件的数据集合
+##    */
+##    <T extends BaseEntity> T get(T entity);
+##
+}
+#end

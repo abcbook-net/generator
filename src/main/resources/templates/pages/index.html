@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+
+    <link rel="stylesheet" href="../../static/libs/bootstrap-4.0.0/css/bootstrap.min.css"
+          th:href="@{/libs/bootstrap-4.0.0/css/bootstrap.min.css}" crossorigin="anonymous" />
+    <link rel="stylesheet" href="../../static/css/index.css"
+          th:href="@{/css/index.css}"  crossorigin="anonymous">
+</head>
+
+<body>
+
+    <div class="banner-container container-fluid">
+        <img src="../../static/images/banner.jpeg"
+             th:src="@{/images/banner.jpeg}" class="banner-image img-fluid" alt="banner">
+        <div class="banner-title hidden-md-down">Generator</div>
+        <div class="banner-subhead hidden-md-down">简洁而优秀的代码生成工具</div>
+    </div>
+    <div class="logo">
+        <img class="img-fluid" src="../../static/images/logo.png"
+             th:src="@{/images/logo.png}" alt="logo">
+    </div>
+
+    <div class="body-container container-fluid">
+
+        <div class="row justify-content-center">
+            <div class="form-item col-lg-5">
+                <!--全局配置-->
+                <div class="item-title">全局配置</div>
+                <div class="item-container" id="globalConfig">
+                    <div class="form-group row">
+                        <label for="outputDir" class="col-md-3 col-form-label">输出地址</label>
+                        <div class="col-md-9">
+                            <input name="outputDir" type="text" class="form-control" id="outputDir"
+                                   value="/Users/lason/Desktop/code"
+                                   placeholder="请输入输出地址 (默认D://)">
+                            <!--                            <small class="text-muted">We'll never share your email with anyone else.</small>-->
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="author" class="col-sm-3 col-form-label">作者</label>
+                        <div class="col-sm-9">
+                            <input name="author" type="text" class="form-control" id="author"
+                                   value="summer"
+                                   placeholder="请输入作者">
+                            <!--                            <small class="text-muted">We'll never share your email with anyone else.</small>-->
+                        </div>
+                    </div>
+                    <fieldset class="form-group">
+                        <div class="row">
+                            <legend class="col-form-label col-sm-3 pt-0">覆盖原文件</legend>
+                            <div class="col-sm-9">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="fileOverride"
+                                           id="fileOverrideTrue" value="true" checked>
+                                    <label class="form-check-label" for="fileOverrideTrue">
+                                        是
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="fileOverride"
+                                           id="fileOverrideFalse" value="false">
+                                    <label class="form-check-label" for="fileOverrideFalse">
+                                        否
+                                    </label>
+                                </div>
+                                <small class="text-muted">是否覆盖输出路径中的文件</small>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <div class="row">
+                            <legend class="col-form-label col-sm-3 pt-0">打开目录</legend>
+                            <div class="col-sm-9">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="open"
+                                           id="openTrue" value="true" checked>
+                                    <label class="form-check-label" for="openTrue">
+                                        是
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="open"
+                                           id="openFalse" value="false">
+                                    <label class="form-check-label" for="openFalse">
+                                        否
+                                    </label>
+                                </div>
+                                <small class="text-muted">生成后自动打开目录</small>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <div class="row">
+                            <legend class="col-form-label col-sm-3 pt-0">二级缓存</legend>
+                            <div class="col-sm-9">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="enableCache"
+                                           id="enableCacheTrue" value="true" checked>
+                                    <label class="form-check-label" for="enableCacheTrue">
+                                        开启
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="enableCache"
+                                           id="enableCacheFalse" value="false">
+                                    <label class="form-check-label" for="enableCacheFalse">
+                                        不开启
+                                    </label>
+                                </div>
+                                <small class="text-muted">是否在xml中添加二级缓存配置</small>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <div class="row">
+                            <legend class="col-form-label col-sm-3 pt-0">Kotlin</legend>
+                            <div class="col-sm-9">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="kotlin"
+                                           id="kotlinTrue" value="true">
+                                    <label class="form-check-label" for="kotlinTrue">
+                                        开启
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="kotlin"
+                                           id="kotlinFalse" value="false" checked>
+                                    <label class="form-check-label" for="kotlinFalse">
+                                        不开启
+                                    </label>
+                                </div>
+                                <small class="text-muted">是否开启 Kotlin 模式</small>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <div class="row">
+                            <legend class="col-form-label col-sm-3 pt-0">ActiveRecord</legend>
+                            <div class="col-sm-9">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="activeRecord"
+                                           id="activeRecordTrue" value="true" checked>
+                                    <label class="form-check-label" for="activeRecordTrue">
+                                        开启
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="activeRecord"
+                                           id="activeRecordFalse" value="false">
+                                    <label class="form-check-label" for="activeRecordFalse">
+                                        不开启
+                                    </label>
+                                </div>
+                                <small class="text-muted">是否开启 ActiveRecord 模式</small>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <div class="row">
+                            <legend class="col-form-label col-sm-3 pt-0">BaseResultMap</legend>
+                            <div class="col-sm-9">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="baseResultMap"
+                                           id="baseResultMapTrue" value="true" checked>
+                                    <label class="form-check-label" for="baseResultMapTrue">
+                                        生成
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="baseResultMap"
+                                           id="baseResultMapFalse" value="false">
+                                    <label class="form-check-label" for="baseResultMapFalse">
+                                        不生成
+                                    </label>
+                                </div>
+                                <small class="text-muted">是否生成 BaseResultMap</small>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <div class="row">
+                            <legend class="col-form-label col-sm-3 pt-0">BaseColumnList</legend>
+                            <div class="col-sm-9">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="baseColumnList"
+                                           id="baseColumnListTrue" value="true" checked>
+                                    <label class="form-check-label" for="baseColumnListTrue">
+                                        生成
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="baseColumnList"
+                                           id="baseColumnListFalse" value="false">
+                                    <label class="form-check-label" for="baseColumnListFalse">
+                                        不生成
+                                    </label>
+                                </div>
+                                <small class="text-muted">是否生成 BaseColumnList</small>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <div class="form-group row">
+                        <label for="mapperName" class="col-md-3 col-form-label">mapperName</label>
+                        <div class="col-md-9">
+                            <input name="mapperName" type="text" class="form-control"
+                                   value="%sMapper"
+                                   id="mapperName" placeholder="mapper 名称 (例如: %sMapper)">
+                            <small class="text-muted">输入框中 %s 是通配符, 生成时会替换成实体名称</small>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="xmlName" class="col-md-3 col-form-label">xmlName</label>
+                        <div class="col-md-9">
+                            <input name="xmlName" type="text" class="form-control"
+                                   value="%sMapper"
+                                   id="xmlName" placeholder="xml 名称 (例如: %sMapper)">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="serviceName" class="col-md-3 col-form-label">serviceName</label>
+                        <div class="col-md-9">
+                            <input name="serviceName" type="text" class="form-control"
+                                   value="%sService"
+                                   id="serviceName" placeholder="service 名称 (例如: %sService)">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="serviceImplName" class="col-md-3 col-form-label">serviceImplName</label>
+                        <div class="col-md-9">
+                            <input name="serviceImplName" type="text" class="form-control"
+                                   value="%sServiceImpl"
+                                   id="serviceImplName" placeholder="serviceImpl 名称 (例如: %sServiceImpl)">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="controllerName" class="col-md-3 col-form-label">controllerName</label>
+                        <div class="col-md-9">
+                            <input name="controllerName" type="text" class="form-control"
+                                   value="%sController"
+                                   id="controllerName" placeholder="controller 名称 (例如: %sController)">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!--数据库配置-->
+            <div class="form-item col-lg-5">
+                <div class="item-title">数据库配置</div>
+                <div class="item-container" id="dataSourceConfig">
+                    <div class="form-group row">
+                        <label for="dbType" class="col-md-3 col-form-label">数据库类型</label>
+                        <div class="col-md-9">
+                            <select name="dbType" class="form-control" id="dbType">
+                                <option  th:each="dbType : ${dbTypes}"
+                                         th:value="${dbType}" th:text="${dbType.value}">Open this select menu</option>
+                            </select>
+                            <!--<input name="dbType" type="text" class="form-control"-->
+                            <!--id="dbType" placeholder="">-->
+                            <!--                            <small class="text-muted">We'll never share your email with anyone else.</small>-->
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="url" class="col-md-3 col-form-label">连接地址</label>
+                        <div class="col-md-9">
+                            <input name="url" type="text" class="form-control"
+                                   value="jdbc:mysql://localhost:3306/tinypace_property?characterEncoding=utf-8&useSSL=false"
+                                   id="url" placeholder="请输入数据库连接地址">
+                            <!--                            <small class="text-muted">We'll never share your email with anyone else.</small>-->
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="username" class="col-md-3 col-form-label">数据库用户名</label>
+                        <div class="col-md-9">
+                            <input name="username" type="text" class="form-control"
+                                   value="root"
+                                   id="username" placeholder="请输入数据库用户名">
+                            <!--                            <small class="text-muted">We'll never share your email with anyone else.</small>-->
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="password" class="col-md-3 col-form-label">数据库密码</label>
+                        <div class="col-md-9">
+                            <input name="password" type="text" class="form-control"
+                                   value="123123"
+                                   id="password" placeholder="请输入数据库密码">
+                            <!--                            <small class="text-muted">We'll never share your email with anyone else.</small>-->
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="driverName" class="col-md-3 col-form-label">驱动名称</label>
+                        <div class="col-md-9">
+                            <input name="driverName" type="text" class="form-control"
+                                   value="com.mysql.jdbc.Driver"
+                                   id="driverName" placeholder="请输入驱动名称">
+                            <!--                            <small class="text-muted">We'll never share your email with anyone else.</small>-->
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn btn-primary btn-lg btn-block"
+                            onclick="index.connectionAndGetTablePrefix()">测试连接</button>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row justify-content-center">
+            <!--策略配置-->
+            <div class="form-item col-lg-5">
+                <div class="item-title">策略配置</div>
+                <div class="item-container" id="strategyConfig">
+                    <fieldset class="form-group">
+                        <div class="row">
+                            <legend class="col-form-label col-sm-3 pt-0">是否大写命名</legend>
+                            <div class="col-sm-9">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="isCapitalMode"
+                                           id="isCapitalModeTrue" value="true">
+                                    <label class="form-check-label" for="isCapitalModeTrue">
+                                        是
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="isCapitalMode"
+                                           id="isCapitalModeFalse" value="false" checked>
+                                    <label class="form-check-label" for="isCapitalModeFalse">
+                                        否
+                                    </label>
+                                </div>
+                                <small class="text-muted">是否大写命名属性名</small>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <div class="row">
+                            <legend class="col-form-label col-sm-3 pt-0">Lombok 模型</legend>
+                            <div class="col-sm-9">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="entityLombokModel"
+                                           id="entityLombokModelTrue" value="true" checked>
+                                    <label class="form-check-label" for="entityLombokModelTrue">
+                                        是
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="entityLombokModel"
+                                           id="entityLombokModelFalse" value="false">
+                                    <label class="form-check-label" for="entityLombokModelFalse">
+                                        否
+                                    </label>
+                                </div>
+                                <small class="text-muted">是否为 lombok 模型</small>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <div class="form-group row">
+                        <label for="naming" class="col-md-3 col-form-label">生成策略</label>
+                        <div class="col-md-9">
+                            <select name="naming" class="form-control" id="naming">
+                                <option  th:each="namingStrategy : ${namingStrategyValues}"
+                                         th:value="${namingStrategy}"
+                                         th:text="${namingStrategy}"
+                                         th:selected="${namingStrategy.toString() == 'underline_to_camel'}"></option>
+                            </select>
+
+                        </div>
+                    </div>
+                    <!--<p th:text="${namingStrategy == 'nochange'}"></p>-->
+                    <div class="form-group row">
+                        <label for="tablePrefix" class="col-md-3 col-form-label">表前缀</label>
+                        <div class="col-md-9">
+                            <input name="tablePrefix" value="" type="text" class="form-control"
+                                   id="tablePrefix" placeholder="请输入表名前缀"
+                                   data-toggle="modal" data-target="#tablePrefixModal" readonly>
+                            <small class="text-muted">设置表名前缀后, 生成的类的名字将不添加前缀.</small>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="include" class="col-md-3 col-form-label">要生成的表</label>
+                        <div class="col-md-9">
+                            <input name="include" type="text" class="form-control"
+                                   value=""
+                                   id="include" placeholder="请输入需要生成的表名"
+                                   data-toggle="modal" data-target="#tableModal" readonly>
+                            <small class="text-muted">和排除的表名是互斥操作, 此处采用选择表名的方式</small>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="superEntityColumns" class="col-md-3 col-form-label">公共字段</label>
+                        <div class="col-md-9">
+                            <input name="superEntityColumns" type="text" class="form-control"
+                                   value="id, create_time, update_time, is_deleted"
+                                   id="superEntityColumns" placeholder="请输入公共字段">
+                            <small class="text-muted">公共字段一般指实体的父类中的属性.</small>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="superEntityClass" class="col-md-3 col-form-label">superEntityClass</label>
+                        <div class="col-md-9">
+                            <input name="superEntityClass" type="text" class="form-control"
+                                   value="com.tinypace.framework.base.model.BaseModel"
+                                   id="superEntityClass" placeholder="自定义继承的Entity类全称，带包名">
+                            <!--                            <small class="text-muted">We'll never share your email with anyone else.</small>-->
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="superMapperClass" class="col-md-3 col-form-label">superMapperClass</label>
+                        <div class="col-md-9">
+                            <input name="superMapperClass" type="text" class="form-control"
+                                   value="com.tinypace.framework.base.mapper.BaseMapper"
+                                   id="superMapperClass" placeholder="自定义继承的Mapper类全称，带包名">
+                            <!--                            <small class="text-muted">We'll never share your email with anyone else.</small>-->
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="superServiceClass" class="col-md-3 col-form-label">superServiceClass</label>
+                        <div class="col-md-9">
+                            <input name="superServiceClass" type="text" class="form-control"
+                                   value="com.tinypace.framework.base.service.BaseService"
+                                   id="superServiceClass" placeholder="自定义继承的Service类全称，带包名">
+                            <!--                            <small class="text-muted">We'll never share your email with anyone else.</small>-->
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="superServiceImplClass" class="col-md-3 col-form-label">superServiceImplClass</label>
+                        <div class="col-md-9">
+                            <input name="superServiceImplClass" type="text" class="form-control"
+                                   value="com.tinypace.framework.base.service.impl.BaseServiceImpl"
+                                   id="superServiceImplClass" placeholder="自定义继承的ServiceImpl类全称，带包名">
+                            <!--                            <small class="text-muted">We'll never share your email with anyone else.</small>-->
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="superControllerClass" class="col-md-3 col-form-label">superControllerClass</label>
+                        <div class="col-md-9">
+                            <input name="superControllerClass" type="text" class="form-control"
+                                   id="superControllerClass" placeholder="自定义继承的Controller类全称，带包名">
+                            <!--                            <small class="text-muted">We'll never share your email with anyone else.</small>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!--包配置-->
+            <div class="form-item col-lg-5">
+                <div class="item-title">包配置</div>
+                <div class="item-container" id="packageConfig">
+                    <div class="form-group row">
+                        <label for="parent" class="col-md-3 col-form-label">父包名</label>
+                        <div class="col-md-9">
+                            <input name="parent" type="text" class="form-control"
+                                   value="net.abcbook.framework"
+                                   id="parent" placeholder="父包名">
+                            <small class="text-muted">父包名。如果为空，将下面子包名必须写全部， 否则就只需写子包名</small>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="moduleName" class="col-md-3 col-form-label">模块名</label>
+                        <div class="col-md-9">
+                            <input name="moduleName" type="text" class="form-control"
+                                   value="system"
+                                   id="moduleName" placeholder="模块名">
+                            <!--                            <small class="text-muted">We'll never share your email with anyone else.</small>-->
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="entity" class="col-md-3 col-form-label">Entity包名</label>
+                        <div class="col-md-9">
+                            <input name="entity" type="text" class="form-control"
+                                   value="model"
+                                   id="entity" placeholder="Entity包名 (默认: entity)">
+                            <!--                            <small class="text-muted">We'll never share your email with anyone else.</small>-->
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="service" class="col-md-3 col-form-label">Service包名</label>
+                        <div class="col-md-9">
+                            <input name="service" type="text" class="form-control"
+                                   value="service"
+                                   id="service" placeholder="Service包名 (默认: service)">
+                            <!--                            <small class="text-muted">We'll never share your email with anyone else.</small>-->
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="serviceImpl" class="col-md-3 col-form-label">ServiceImpl包名</label>
+                        <div class="col-md-9">
+                            <input name="serviceImpl" type="text" class="form-control"
+                                   value="serviceImpl"
+                                   id="serviceImpl" placeholder="Service Impl包名 (默认: service.impl)">
+                            <!--                            <small class="text-muted">We'll never share your email with anyone else.</small>-->
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="mapper" class="col-md-3 col-form-label">Mapper包名</label>
+                        <div class="col-md-9">
+                            <input name="mapper" type="text" class="form-control"
+                                   value="mapper"
+                                   id="mapper" placeholder="Mapper包名 (默认: mapper)">
+                            <!--                            <small class="text-muted">We'll never share your email with anyone else.</small>-->
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="xml" class="col-md-3 col-form-label">Mapper XML包名</label>
+                        <div class="col-md-9">
+                            <input name="xml" type="text" class="form-control"
+                                   id="xml" placeholder="Mapper XML包名 (默认: xml)">
+                            <!--                            <small class="text-muted">We'll never share your email with anyone else.</small>-->
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="web" class="col-md-3 col-form-label">Controller包名</label>
+                        <div class="col-md-9">
+                            <input name="web" type="text" class="form-control"
+                                   value="controller"
+                                   id="web" placeholder="Controller包名 (默认: web)">
+                            <!--                            <small class="text-muted">We'll never share your email with anyone else.</small>-->
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="container bottom-container">
+            <!--<div class="row justify-content-center">-->
+            <button type="button" class="btn btn-primary btn-lg btn-block" onclick="index.generator()">立刻生成</button>
+            <!--</div>-->
+        </div>
+
+    </div>
+
+
+    <!--模态框开始-->
+    <!--表前缀模态框-->
+    <!-- Button trigger modal -->
+    <!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tablePrefixModal">-->
+        <!--测试开启表前缀模态框-->
+    <!--</button>-->
+
+    <!-- Modal -->
+    <div class="modal fade" id="tablePrefixModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">表前缀</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div id="tablePrefixModalBody" class="tablePrefixModalBody modal-body">
+                    <!--<div class="form-check">-->
+                        <!--<input class="form-check-input" type="checkbox" value="" id="defaultCheck2" disabled>-->
+                        <!--<label class="form-check-label" for="defaultCheck2">-->
+                            <!--Disabled checkbox-->
+                        <!--</label>-->
+                    <!--</div>-->
+                </div>
+                <!--<div class="modal-footer">-->
+                    <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+                    <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+                <!--</div>-->
+            </div>
+        </div>
+    </div>
+
+    <!--表模态框-->
+    <!-- Button trigger modal -->
+    <!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tableModal">-->
+        <!--测试开启表模态框-->
+    <!--</button>-->
+
+    <!-- Modal -->
+    <div class="modal fade" id="tableModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">想要生成的表</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div id="tableModalBody" class="tableModalBody modal-body">
+                    <!--<div class="content">-->
+                        <!--<label class="my-1 d-md-block">Example heading</label>-->
+                        <!--<div class="form-check form-check-inline">-->
+                            <!--<input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">-->
+                            <!--<label class="form-check-label" for="inlineCheckbox1">1</label>-->
+                        <!--</div>-->
+                        <!--<div class="form-check form-check-inline">-->
+                            <!--<input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">-->
+                            <!--<label class="form-check-label" for="inlineCheckbox2">2</label>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                </div>
+                <!--<div class="modal-footer">-->
+                <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+                <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+                <!--</div>-->
+            </div>
+        </div>
+    </div>
+
+    <script src="../../static/libs/jquery-3.3.1/jquery-3.3.1.min.js"
+            th:src="@{/libs/jquery-3.3.1/jquery-3.3.1.min.js}" crossorigin="anonymous"></script>
+    <script src="../../static/libs/popper-1.12.9/popper.min.js"
+            th:src="@{/libs/popper-1.12.9/popper.min.js}" crossorigin="anonymous"></script>
+    <script src="../../static/libs/bootstrap-4.0.0/js/bootstrap.min.js"
+            th:src="@{/libs/bootstrap-4.0.0/js/bootstrap.min.js}" crossorigin="anonymous"></script>
+
+    <script src="../../static/js/util/iform.js"
+            th:src="@{/js/util/iform.js}" crossorigin="anonymous"></script>
+
+    <script src="../../static/js/index.js"
+            th:src="@{/js/index.js}" crossorigin="anonymous"></script>
+
+</body>
+
+</html>
